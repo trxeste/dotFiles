@@ -1,0 +1,9 @@
+# export PS1="\u@\h:\w\\$ \[$(tput sgr0)\]"
+export PS1="\[\033[38;5;33m\]\u\[$(tput sgr0)\]\[\033[38;5;39m\]@\[$(tput sgr0)\]\[\033[38;5;33m\]\h\[$(tput sgr0)\]\[\033[38;5;39m\]:\[$(tput sgr0)\]\[\033[38;5;33m\]\w\[$(tput sgr0)\]\[\033[38;5;45m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
+export PS2='> '
+
+# Java
+export PATH=$PATH:/usr/lib64/java/jre/bin/
+
+# Cabal Stuff
+export PATH=$PATH:/home/human/.cabal/bin/
