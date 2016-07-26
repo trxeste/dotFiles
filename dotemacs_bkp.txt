@@ -3,6 +3,7 @@
 ;  auto-complete-c-headers 
 ;  flycheck           
 ;  flycheck-google-cpplint
+;  flycheck-haskell
 ;  google-c-style     
 ;  haskell-mode       
 ;  iedit              
