@@ -74,3 +74,71 @@ Command (m for help): w
 # Se você estiver em dúvida, escolha ext4. Eis o comando para criar um sistema de arquivos raiz em ext4: 
 
 # mkfs.ext4 /dev/sda3
+
+## Montando sistemas de arquivos
+
+# Monte as partições recém criadas como a seguir, criando /mnt/funtoo como ponto de montagem da instalação: 
+
+# mkdir /mnt/funtoo
+# mount /dev/sda3 /mnt/funtoo
+# mkdir /mnt/funtoo/boot
+# mount /dev/sda1 /mnt/funtoo/boot
+
+# Opcionalmente, se você tem uma partição separada para /home ou algo assim: 
+# mkdir /mnt/funtoo/home
+# mount /dev/sda4 /mnt/funtoo/home
+
+# Se você tem /tmp ou /var/tmp em uma partição separada,
+# certifique-se de alterar as permissões do ponto de montagem para que
+#  seja gravável globalmente após a montagem, dessa maneira: 
+
+# chmod 1777 /mnt/funtoo/tmp
+
+## Definindo a Data
+
+# Agora é uma boa hora para verificar se a data e hora do sistema estão corretamente definidas para UTC.
+# Use o comando date para checar a data e a hora: 
+
+# date
+Fri Jul 15 19:47:18 UTC 2011
+
+# Se a data e/ou hora precisam ser corrigidas, use date MMDDhhmmYYYY.
+
+# date 111723082016
+
+# Definida a data e hora do sistema, é uma boa idéia copiar o horário para o relógio do hardware,
+# assim ele persiste após reiniciar o computador: 
+
+# hwclock --systohc
+
+## Instalando Stage 3
+
+# Extrair Stage3
+
+# cd /mnt/funtoo
+# tar xpf stage3-latest.tar.xz
+
+## Copy DNS
+
+# cp -L /etc/resolv.conf /mnt/funtoo/etc/
+
+## Montando os sistemas de arquivos necessários
+
+# mount -t proc proc /mnt/funtoo/proc
+# mount --rbind /sys /mnt/funtoo/sys
+# mount --make-rslave /mnt/funtoo/sys
+# mount --rbind /dev /mnt/funtoo/dev
+# mount --make-rslave /mnt/funtoo/dev
+
+# rm /dev/shm && mkdir /dev/shm 
+# mount -t tmpfs -o nosuid,nodev,noexec shm /dev/shm
+# chmod 1777 /dev/shm
+
+## Entrando no novo ambiente
+
+# chroot /mnt/funtoo /bin/bash
+# source /etc/profile
+# export PS1="(chroot) $PS1"
+
+### Baixando a árvore do Portage
+
