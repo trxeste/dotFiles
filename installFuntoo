@@ -145,7 +145,7 @@ Fri Jul 15 19:47:18 UTC 2011
 (chroot) # emerge --sync
 
 ## Configuring your system
-
+Configurando sua rede
 (chroot) # nano /etc/fstab
 
 ## local time /etc/localtime
@@ -209,3 +209,15 @@ boot {
 
 (chroot) # grub-install --target=i386-pc --no-floppy /dev/sda
 (chroot) # boot-update
+
+### Configurando sua rede
+
+## Wi-Fi
+
+(chroot) # emerge linux-firmware networkmanager
+# emerge --autounmask-write linux-firmware networkmanager 
+# etc-update 
+ -3
+ # emerge --ask linux-firmware networkmanager
+(chroot) # rc-update add NetworkManager default
+ebuild /usr/portage/net-misc/dhcp/dhcp-4.3.5.ebuild digest 
