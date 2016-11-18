@@ -142,3 +142,65 @@ Fri Jul 15 19:47:18 UTC 2011
 
 ### Baixando a árvore do Portage
 
+(chroot) # emerge --sync
+
+## Configuring your system
+
+(chroot) # nano /etc/fstab
+
+## local time /etc/localtime
+
+(chroot) # ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+# MAKEOPTS pode ser usado para definir quantas compilações em paralelo devem ocorrer quando se compila um pacote,
+# o que pode acelerar significativamente a compilação. O valor padrão é o número de CPU's (ou threads de CPU) em seu 
+# sistema mais um. Se, por exemplo, você tem um processador dual core sem hyper-threading, então você deve definir MAKEOPTS para 3: 
+
+nano /etc/portage/make.conf
+
+MAKEOPTS="-j3" 
+
+na duvida: 
+(chroot) # nproc
+16
+
+### Atualizando o World
+
+(chroot) # emerge --sync
+(chroot) # emerge -auDN @world
+(chroot) puppypc3557 / # emerge --depclean
+(chroot) puppypc3557 / # nano /etc/modprobe.d/blacklist.conf
+
+## Instalando um Bootloader
+
+(chroot) # emerge --ask boot-update
+
+# configurar o bootloader
+
+o /etc/boot.conf deve estar assim:
+
+boot {
+	generate grub
+	default "Funtoo Linux genkernel" 
+	timeout 3 
+}
+
+"Funtoo Linux" {
+	kernel bzImage[-v]
+}
+
+"Funtoo Linux genkernel" {
+	kernel kernel[-v]
+	initrd initramfs[-v]
+	params += real_root=auto 
+} 
+
+"Funtoo Linux better-initramfs" {
+	kernel vmlinuz[-v]
+	initrd /initramfs.cpio.gz
+}
+
+## instalando grub
+
+(chroot) # grub-install --target=i386-pc --no-floppy /dev/sda
+(chroot) # boot-update
